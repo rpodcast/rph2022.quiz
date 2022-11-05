@@ -18,6 +18,23 @@ services:
       - seccomp:unconfined
     command: sleep infinity
     env_file: .env
+    
+  db:
+    image: mongo:3.4
+    command: mongod --port 12335
+    restart: unless-stopped
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: testdb
+    ports:
+      - 12335:27017
+      
+  quizpostgresdb:
+    image: postgres:13
+    restart: unless-stopped
+    volumes:
+      - postdb-data:/data/db
 
   rstudiodevcontainer:
     build:
@@ -36,3 +53,7 @@ services:
     ports:
       - ${LOCAL_PORT}:8787
     env_file: .env
+    
+volumes:
+  mongodb-data:
+  postdb-data:

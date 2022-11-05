@@ -1,0 +1,34 @@
+Package: rph2022.quiz
+Title: An Amazing Shiny App
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "firstname",
+           family = "lastname",
+           role = c("aut", "cre"),
+           email = "your@email.com")
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Imports: 
+    bslib,
+    config,
+    dplyr,
+    firebase (>= 0.2.1.9000),
+    golem,
+    magrittr,
+    mongolite,
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    thematic,
+    tibble,
+    whereami,
+    DBI,
+    RPostgres
+Suggests:
+    languageserver,
+    httpgd
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Remotes:  
+    JohnCoene/firebase
