@@ -1,0 +1,7 @@
+FIREBASE_API_KEY="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+FIREBASE_PROJECT_ID="rpharmaquiz"
+FIREBASE_AUTH_DOMAIN="rpharmaquiz.firebaseapp.com"
+FIREBASE_STORAGE_BUCKET="rpharmaquiz.appspot.com"
+FIREBASE_APP_ID="cccccccccccccccccccccccccccccccc"
+GH_CLIENT_SECRET="ddddddddddddddddddddddddddddddddddddd"
+GH_CLIENT_ID="eeeeeeeeeeeeeeeeeeeeeeee"

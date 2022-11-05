@@ -1,0 +1,14 @@
+ .modal-content {
+	position: relative;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	width: 100%;
+	pointer-events: auto;
+	background-color: #35464b;
+	background-clip: padding-box;
+	border: 2px solid #333;
+	border-radius: 35px;
+	outline: 0;
+}
