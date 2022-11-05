@@ -26,9 +26,11 @@ Imports:
     RPostgres
 Suggests:
     languageserver,
-    httpgd
+    httpgd,
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
-Remotes:  
+RoxygenNote: 7.2.1
+Remotes: 
     JohnCoene/firebase
+Config/testthat/edition: 3
