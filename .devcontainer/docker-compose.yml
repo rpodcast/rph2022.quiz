@@ -35,6 +35,7 @@ services:
     restart: unless-stopped
     volumes:
       - postdb-data:/data/db
+    env_file: .env
 
   rstudiodevcontainer:
     build:
