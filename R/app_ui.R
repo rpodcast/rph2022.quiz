@@ -12,7 +12,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      #firebaseUIContainer(),
+      if (golem::app_prod()) firebaseUIContainer(),
       uiOutput("logged_in_ui")
     )
   )

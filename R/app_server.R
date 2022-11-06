@@ -14,14 +14,15 @@ app_server <- function(input, output, session) {
   auth_method <- reactiveVal()
   
   #f <- FirebaseSocial$new()
-  f <- firebase::FirebaseUI$
-    new()$ # instantiate
-    set_providers( # define providers
-      email = TRUE,
-      google = TRUE,
-      github = TRUE
-    )
-
+  if (golem::app_prod()) {
+    f <- firebase::FirebaseUI$
+      new()$ # instantiate
+      set_providers( # define providers
+        email = TRUE,
+        google = TRUE,
+        github = TRUE
+      )
+  }
   
   if (golem::app_prod()) {
     showModal(
@@ -52,10 +53,13 @@ app_server <- function(input, output, session) {
   #   removeModal()
   # })
   
-  observeEvent(f$req_sign_in(), removeModal(session))
+  if (golem::app_prod()) observeEvent(f$req_sign_in(), removeModal(session))
   
   output$logged_in_ui <- renderUI({
-    f$req_sign_in()
+    if (golem::app_prod()) {
+      f$req_sign_in()
+    }
+    
     # if (golem::app_prod()) {
     #   req(auth_method())
     #   browser()
