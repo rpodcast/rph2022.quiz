@@ -1,4 +1,6 @@
 # create list object of random questions that mimic structure of real quiz data
+library(dplyr)
+library(tidyr)
 
 quiz_items <- list(
   list(
@@ -30,3 +32,9 @@ quiz_items <- list(
 )
 
 saveRDS(quiz_items, file = "dev/quiz_items.rds")
+
+# convert to tidy data frame for use with Pins later
+quiz_df <- tibble::tibble(quiz_items) %>%
+  unnest_wider(quiz_items)
+
+saveRDS(quiz_df, file = "dev/quiz_df.rds")

@@ -12,7 +12,13 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      if (golem::app_prod()) firebaseUIContainer(),
+      theme = bslib::bs_theme(
+        bootswatch = "sketchy",
+        base_font = bslib::font_google("Klee One"),
+        heading_font = bslib::font_google("Klee One"),
+        font_scale = 2
+      ),
+      #if (golem::app_prod()) firebaseUIContainer(),
       uiOutput("logged_in_ui")
     )
   )
@@ -22,22 +28,16 @@ app_ui <- function(request) {
 #' @import bslib
 #' @noRd
 ui_secret <- function() {
-  shiny::fluidPage(
-    #h1("rph2022.quiz")
-    theme = bslib::bs_theme(
-      bootswatch = "sketchy",
-      base_font = bslib::font_google("Klee One"),
-      heading_font = bslib::font_google("Klee One"),
-      font_scale = 2
-    ),
+  tagList(
     fluidRow(
       col_12(
         tabsetPanel(
           id = "tabs",
           type = "hidden",
+          #type = "tabs",
           tabPanel(
-            "Hello",
-            mod_welcome_ui("welcome_ui_1"),
+            title = "Hello",
+            h1("Hello tab"),
             value = "hello"
           )
         )
@@ -58,6 +58,7 @@ ui_secret <- function() {
       )
     )
   )
+  #)
 }
 
 #' Add external Resources to the Application
