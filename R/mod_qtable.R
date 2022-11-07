@@ -29,12 +29,6 @@ mod_qtable_server <- function(id, answers_res){
       question_click(input$goto_question$index)
     })
     
-    # question_click <- reactive({
-    #   req(input$goto_question)
-    #   message(input$goto_question)
-    #   input$goto_question
-    # })
-    
     output$table <- renderReactable({
       df <- purrr::map_df(1:length(answers_res), ~{
         tibble::tibble(
