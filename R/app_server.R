@@ -161,39 +161,32 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
     # grab current tab
     current_tab <- input$tabs
     tab_number <- as.integer(stringr::str_extract(current_tab, "\\d+"))
+
+    if (!shiny::isTruthy(answers_res[[tab_number]]()$answer)) {
+      shinyWidgets::show_alert(
+        title = "Oops!",
+        text = "Please select or enter an answer before you continue.",
+        type = "error"
+      )
+      return(NULL)
+    }
     
-    if (current_tab == "hello") {
-      next_tab <- "qtab1"
+    if (tab_number == n_questions) {
+      next_tab <- "conclusion"
       updateTabsetPanel(
         inputId = "tabs",
         selected = next_tab
       )
-    } else {
-      if (is.null(answers_res[[tab_number]]())) {
-        shinyWidgets::show_alert(
-          title = "Oops!",
-          text = "Please select an answer before you continue.",
-          type = "error"
-        )
-        return(NULL)
-      }
-      
-      if (tab_number == n_questions) {
-        next_tab <- "conclusion"
-        updateTabsetPanel(
-          inputId = "tabs",
-          selected = next_tab
-        )
-      }
-      
-      if (tab_number < n_questions) {
-        next_tab <- glue::glue("qtab{tab_number + 1}")
-        updateTabsetPanel(
-          inputId = "tabs",
-          selected = next_tab
-        )
-      }
     }
+    
+    if (tab_number < n_questions) {
+      next_tab <- glue::glue("qtab{tab_number + 1}")
+      updateTabsetPanel(
+        inputId = "tabs",
+        selected = next_tab
+      )
+    }
+
     start_time(Sys.time())
   })
   
