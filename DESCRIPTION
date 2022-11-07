@@ -23,7 +23,9 @@ Imports:
     tibble,
     whereami,
     DBI,
-    RPostgres
+    reactable,
+    pins,
+    pkgload
 Suggests:
     languageserver,
     httpgd,

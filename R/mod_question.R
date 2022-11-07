@@ -25,9 +25,11 @@ mod_question_ui <- function(
       choices_value <- choices_value[ind]
     }
     
-    ui_item <- radioButtons(
+    ui_item <- shinyWidgets::prettyRadioButtons(
       inputId = ns("qinput"),
       label = question_text,
+      icon = icon("check"),
+      status = "success",
       choiceNames = choices_text,
       choiceValues = choices_value,
       selected = character(0),
@@ -64,7 +66,7 @@ mod_question_ui <- function(
 #' question Server Functions
 #'
 #' @noRd 
-mod_question_server <- function(id, question_index = 1, quiz = 1, qid = 1){
+mod_question_server <- function(id, question_index = 1, quiz = 1, qid = 1, question_text = "Hello there?"){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -74,6 +76,7 @@ mod_question_server <- function(id, question_index = 1, quiz = 1, qid = 1){
       } else {
         res <- list(
           question_index = question_index,
+          question_text = question_text,
           quiz = quiz,
           qid = qid,
           answer = input$qinput

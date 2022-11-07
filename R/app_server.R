@@ -13,46 +13,27 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
   start_time <- reactiveVal(Sys.time())
   auth_method <- reactiveVal()
   
-  #f <- FirebaseSocial$new()
-  if (golem::app_prod()) {
-    f <- firebase::FirebaseUI$
-      new()$ # instantiate
-      set_providers( # define providers
-        email = TRUE,
-        google = TRUE,
-        github = TRUE
-      )
-  }
-  
   if (golem::app_prod()) {
     showModal(
       modalDialog(
         title = "Login",
         firebase::firebaseUIContainer(),
         size = "xl",
-        # actionButton("google", "Google", icon = icon("google"), class = "btn-danger"),
-        # actionButton("github", "GitHub", icon = icon("github")),
-        # actionButton("email", "Email"),
         footer = NULL
       )
     )
-    f$launch()
   }
   
-  # observeEvent(input$google, {
-  #   auth_method("google")
-  #   f$launch_google()
-  # })
-  # 
-  # observeEvent(input$github, {
-  #   auth_method("github")
-  #   f$launch_github()
-  # })
-  # 
-  # observe({
-  #   f$req_sign_in()
-  #   removeModal()
-  # })
+  if (golem::app_prod()) {
+    f <- firebase::FirebaseUI$
+      new()$ # instantiate
+      set_providers( # define providers
+        google = TRUE,
+        github = TRUE,
+        microsoft = TRUE
+      )$
+      launch()
+  }
   
   if (golem::app_prod()) observeEvent(f$req_sign_in(), removeModal(session))
   
@@ -62,14 +43,7 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
       f$req_sign_in()
     }
     start_app(runif(1))
-    
-    # if (golem::app_prod()) {
-    #   req(auth_method())
-    #   browser()
-    #   f$req_sign_in()
-    # }
     ui_secret()
-    #start_app(runif(1))
   })
   
   # load quiz data
@@ -82,6 +56,7 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
   }
   
   observeEvent(start_app(), {
+    browser()
     showModal(
       modalDialog(
         title = "Welcome",
@@ -152,48 +127,51 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
       glue::glue("question_ui_{.x}"), 
       question_index = .x, 
       quiz = quiz_sub$quiz, 
-      qid = quiz_sub$qid)
+      qid = quiz_sub$qid,
+      question_text = quiz_sub$question_text)
   })
   
-  mod_complete_server("complete_ui_1", answers_res)
+  question_click_res <- mod_complete_server("complete_ui_1", answers_res)
+  
+  observeEvent(question_click_res(), {
+    if (golem::app_dev()) whereami::cat_where(whereami::whereami())
+    qtab <- glue::glue("qtab{question_click_res()}")
+    updateTabsetPanel(
+      inputId = "tabs",
+      selected = qtab
+    )
+  })
   
   observeEvent(input$next_button, {
     # grab current tab
     current_tab <- input$tabs
     tab_number <- as.integer(stringr::str_extract(current_tab, "\\d+"))
+
+    if (!shiny::isTruthy(answers_res[[tab_number]]()$answer)) {
+      shinyWidgets::show_alert(
+        title = "Oops!",
+        text = "Please select or enter an answer before you continue.",
+        type = "error"
+      )
+      return(NULL)
+    }
     
-    if (current_tab == "hello") {
-      next_tab <- "qtab1"
+    if (tab_number == n_questions) {
+      next_tab <- "conclusion"
       updateTabsetPanel(
         inputId = "tabs",
         selected = next_tab
       )
-    } else {
-      if (is.null(answers_res[[tab_number]]())) {
-        shinyWidgets::show_alert(
-          title = "Oops!",
-          text = "Please select an answer before you continue.",
-          type = "error"
-        )
-        return(NULL)
-      }
-      
-      if (tab_number == n_questions) {
-        next_tab <- "conclusion"
-        updateTabsetPanel(
-          inputId = "tabs",
-          selected = next_tab
-        )
-      }
-      
-      if (tab_number < n_questions) {
-        next_tab <- glue::glue("qtab{tab_number + 1}")
-        updateTabsetPanel(
-          inputId = "tabs",
-          selected = next_tab
-        )
-      }
     }
+    
+    if (tab_number < n_questions) {
+      next_tab <- glue::glue("qtab{tab_number + 1}")
+      updateTabsetPanel(
+        inputId = "tabs",
+        selected = next_tab
+      )
+    }
+
     start_time(Sys.time())
   })
   

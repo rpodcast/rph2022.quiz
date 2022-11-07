@@ -26,6 +26,7 @@ golem::add_module(name = "complete", with_test = TRUE) # Name of the module
 golem::add_module(name = "prevent_timeout", with_test = FALSE) # Name of the module
 golem::add_module(name = "authentication", with_test = FALSE) # Name of the module
 golem::add_module(name = "login", with_test = FALSE) # Name of the module
+golem::add_module(name = "qtable", with_test = FALSE)
 
 
 ## Add helper functions ----
