@@ -13,6 +13,8 @@ mod_complete_ui <- function(id){
     fluidRow(
       col_12(
         h2("All done!"),
+        p("Here is a recap of the answers you provided. If you wish to change any of them now, click the button corresponding to the question in the table below", style = "font-size: 20px;"),
+        mod_qtable_ui(ns("qtable_1")),
         actionButton(
           inputId = ns("qsubmit"),
           label = "Submit",
@@ -31,6 +33,12 @@ mod_complete_server <- function(id, answers_res){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
+    question_click_res <- mod_qtable_server("qtable_1", answers_res)
+    
+    question_click <- reactive({
+      question_click_res()
+    })
+    
     observeEvent(input$qsubmit, {
       if (golem::app_dev()) whereami::cat_where(whereami::whereami())
       answers_res1 <- purrr::map(answers_res, ~{ tmp <- .x()})
@@ -41,6 +49,8 @@ mod_complete_server <- function(id, answers_res){
         type = "success"
       )
     })
+    
+    question_click
  
   })
 }

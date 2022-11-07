@@ -23,7 +23,7 @@ Imports:
     tibble,
     whereami,
     DBI,
-    RPostgres
+    reactable
 Suggests:
     languageserver,
     httpgd,

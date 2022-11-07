@@ -152,10 +152,20 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
       glue::glue("question_ui_{.x}"), 
       question_index = .x, 
       quiz = quiz_sub$quiz, 
-      qid = quiz_sub$qid)
+      qid = quiz_sub$qid,
+      question_text = quiz_sub$question_text)
   })
   
-  mod_complete_server("complete_ui_1", answers_res)
+  question_click_res <- mod_complete_server("complete_ui_1", answers_res)
+  
+  observeEvent(question_click_res(), {
+    if (golem::app_dev()) whereami::cat_where(whereami::whereami())
+    qtab <- glue::glue("qtab{question_click_res()}")
+    updateTabsetPanel(
+      inputId = "tabs",
+      selected = qtab
+    )
+  })
   
   observeEvent(input$next_button, {
     # grab current tab
