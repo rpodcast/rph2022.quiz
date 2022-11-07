@@ -24,7 +24,8 @@ Imports:
     whereami,
     DBI,
     reactable,
-    pins
+    pins,
+    pkgload
 Suggests:
     languageserver,
     httpgd,
