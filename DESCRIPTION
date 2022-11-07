@@ -23,7 +23,8 @@ Imports:
     tibble,
     whereami,
     DBI,
-    reactable
+    reactable,
+    pins
 Suggests:
     languageserver,
     httpgd,
