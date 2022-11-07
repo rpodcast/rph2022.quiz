@@ -59,7 +59,7 @@ mod_qtable_server <- function(id, answers_res){
           question_text = colDef(
             name = "Question",
             sortable = FALSE,
-            width = 400
+            width = 700
           ),
           answer = colDef(
             name = "Your Answer",
