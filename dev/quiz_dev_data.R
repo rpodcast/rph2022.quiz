@@ -1,7 +1,9 @@
 # create list object of random questions that mimic structure of real quiz data
 library(dplyr)
 library(tidyr)
+library(pins)
 
+# define development version of quiz items
 quiz_items <- list(
   list(
     quiz = 1,
@@ -38,3 +40,27 @@ quiz_df <- tibble::tibble(quiz_items) %>%
   unnest_wider(quiz_items)
 
 saveRDS(quiz_df, file = "dev/quiz_df.rds")
+
+# send to a pinboard in a local directory
+board_dev <- board_folder("dev/board_local")
+board_dev %>%
+  pin_write(quiz_items, "quiz_items")
+
+board_dev %>%
+  pin_write(quiz_df, "quiz_df")
+
+# define production version of quiz items
+# load from dev/prototyping/quiz1_items.rds
+quiz_items_prd <- readRDS("dev/prototyping/quiz1_items.rds")
+
+quiz_df_prd <- tibble::tibble(quiz_items_prd) %>%
+  unnest_wider(quiz_items_prd)
+
+# save to a pinboard in custom rstudio connect server
+board_rsconnect <- board_rsconnect(auth = "envvar")
+
+board_rsconnect %>%
+  pin_write(quiz_items_prd, "quiz_items")
+
+board_rsconnect %>%
+  pin_write(quiz_df_prd, "quiz_df")
