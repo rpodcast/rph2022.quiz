@@ -5,3 +5,7 @@ FIREBASE_STORAGE_BUCKET="rpharmaquiz.appspot.com"
 FIREBASE_APP_ID="cccccccccccccccccccccccccccccccc"
 CONNECT_SERVER="https://myserver.com"
 CONNECT_API_KEY="abcdefghijklmnopqrstuvwxyz"
+PG_USER="username"
+PG_PASSWORD="change_me"
+PG_HOST="mydbhost.com"
+PG_PORT=5432
