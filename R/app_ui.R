@@ -18,7 +18,6 @@ app_ui <- function(request) {
         heading_font = bslib::font_google("Klee One"),
         font_scale = 2
       ),
-      #if (golem::app_prod()) firebaseUIContainer(),
       uiOutput("logged_in_ui")
     )
   )
@@ -34,31 +33,32 @@ ui_secret <- function() {
         tabsetPanel(
           id = "tabs",
           type = "hidden",
-          #type = "tabs",
           tabPanel(
-            title = "Hello",
-            h1("Hello tab"),
+            title = "",
+            p(""),
             value = "hello"
           )
         )
       )
     ),
-    fluidRow(
-      col_2(
-        actionButton(
-          inputId = "prev_button",
-          "Back"
-        )
-      ),
-      col_2(
-        actionButton(
-          inputId = "next_button",
-          "Next"
+    conditionalPanel(
+      condition = "output.shownav",
+      fluidRow(
+        col_2(
+          actionButton(
+            inputId = "prev_button",
+            "Back"
+          )
+        ),
+        col_2(
+          actionButton(
+            inputId = "next_button",
+            "Next"
+          )
         )
       )
     )
   )
-  #)
 }
 
 #' Add external Resources to the Application
@@ -81,7 +81,8 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "rph2022.quiz"
     ),
-    firebase::useFirebase()
+    firebase::useFirebase(),
+    sever::useSever()
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )
