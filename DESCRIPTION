@@ -25,7 +25,13 @@ Imports:
     DBI,
     reactable,
     pins,
-    pkgload
+    pkgload,
+    pool,
+    RSQLite,
+    uuid,
+    randomNames,
+    RPostgres,
+    sever
 Suggests:
     languageserver,
     httpgd,
