@@ -20,7 +20,8 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
   if (golem::app_prod()) {
     showModal(
       modalDialog(
-        title = "Login",
+        title = "R/Pharma 2022 Quiz",
+        p("Authenticate with your existing Google, GitHub, or Microsoft account to be included in the leaderboard for bragging rights (and perhaps a prize)!"),
         firebase::firebaseUIContainer(),
         size = "xl",
         footer = NULL

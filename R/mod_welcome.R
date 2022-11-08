@@ -12,9 +12,9 @@ mod_welcome_ui <- function(id){
   tagList(
     fluidRow(
       col_12(
-        h2("R/Pharma 202w Quiz Time!"),
+        h2("R/Pharma 2022 Quiz Time!"),
         p("Ready to test your R knowledge? See how well you know the R package ecosystem on CRAN with this fun quiz!"),
-        p("If you would like to see how you stack up to others in your R knowledge, you can opt-in to authenticating with your existing Google or GitHub accounts (or set up a custom email login) to be included in the leaderboard!")
+        p("Authenticate with your existing Google, GitHub, or Microsoft account to be included in the leaderboard for bragging rights (and perhaps a prize)!")
       )
     )
   )
