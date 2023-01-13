@@ -8,15 +8,20 @@
 app_server <- function(input, output, session, random_question_order = TRUE) {
   # Your application server logic
   
+  con <- db_con()
+  
   # set up reactive values
   start_app <- reactiveVal()
   start_time <- reactiveVal(Sys.time())
   auth_method <- reactiveVal()
+  user_info <- reactiveValues()
+  firebase_list <- NULL
   
   if (golem::app_prod()) {
     showModal(
       modalDialog(
-        title = "Login",
+        title = "R/Pharma 2022 Quiz",
+        p("Authenticate with your existing Google, GitHub, or Microsoft account to be included in the leaderboard for bragging rights (and perhaps a prize)!"),
         firebase::firebaseUIContainer(),
         size = "xl",
         footer = NULL
@@ -56,6 +61,12 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
   }
   
   observeEvent(start_app(), {
+    if (golem::app_prod()) firebase_list <- f$get_signed_in()
+    user_info_res <- get_user_info(firebase_list = firebase_list)
+    user_info$uid <- user_info_res$uid
+    user_info$display_name <- user_info_res$display_name
+    user_info$email <- user_info_res$email
+
     showModal(
       modalDialog(
         title = "Welcome",
@@ -68,6 +79,12 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
       )
     )
   })
+  
+  output$shownav <- reactive({
+    !input$tabs %in% c("hello", "conclusion") 
+  })
+  
+  outputOptions(output, "shownav", suspendWhenHidden = FALSE)
   
   observeEvent(input$dismiss_welcome, {
     if (!is.null(start_app())) {
@@ -130,7 +147,7 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
       question_text = quiz_sub$question_text)
   })
   
-  question_click_res <- mod_complete_server("complete_ui_1", answers_res)
+  question_click_res <- mod_complete_server("complete_ui_1", answers_res, user_info, con)
   
   observeEvent(question_click_res(), {
     if (golem::app_dev()) whereami::cat_where(whereami::whereami())
