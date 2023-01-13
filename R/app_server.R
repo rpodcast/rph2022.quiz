@@ -66,6 +66,7 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
     user_info$uid <- user_info_res$uid
     user_info$display_name <- user_info_res$display_name
     user_info$email <- user_info_res$email
+
     showModal(
       modalDialog(
         title = "Welcome",
