@@ -56,7 +56,6 @@ app_server <- function(input, output, session, random_question_order = TRUE) {
   }
   
   observeEvent(start_app(), {
-    browser()
     showModal(
       modalDialog(
         title = "Welcome",
